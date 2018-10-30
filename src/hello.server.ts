@@ -1,6 +1,8 @@
 import { createServer } from 'http';
 import { parse } from 'url';
 import { toContentTypeView } from './content-type-view';
+import { closeServerPromise } from './server.util';
+import { registerShutdown } from './shutdown-logic';
 
 const ARGV = process.argv
   .filter(_ => _.startsWith('-par:'))
@@ -38,3 +40,5 @@ const server = createServer((req, resp) => {
 
 console.log(`greeting server starting on ${PORT}`);
 server.listen(PORT);
+
+registerShutdown(() => closeServerPromise(server));
