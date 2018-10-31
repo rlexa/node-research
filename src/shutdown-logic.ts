@@ -16,17 +16,23 @@ async function shutdown(error: any, waitFunc: () => void) {
 }
 
 export function registerShutdown(waitFunc: () => Promise<any>) {
-  process.on('SIGTERM', () => {
-    console.log('...detected: SIGTERM');
-    shutdown(null, waitFunc);
-  });
-
-  process.on('SIGINT', () => {
+  process.once('SIGINT', () => {
     console.log('...detected: SIGINT');
     shutdown(null, waitFunc);
   });
 
-  process.on('uncaughtException', error => {
+  process.once('SIGTERM', () => {
+    console.log('...detected: SIGTERM');
+    shutdown(null, waitFunc);
+  });
+
+  process.once('SIGUSR2', () => {
+    console.log('...detected: SIGUSR2');
+    shutdown(null, waitFunc);
+    process.kill(process.pid, 'SIGUSR2');
+  });
+
+  process.once('uncaughtException', error => {
     console.log('...detected: uncaught exception');
     console.error(error);
     shutdown(error, waitFunc);

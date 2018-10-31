@@ -10,7 +10,6 @@ const ARGV = process.argv
   .filter(_ => _.length);
 
 const GREETING = (ARGV.find(_ => _.startsWith('greeting=')) || 'greeting=Hi').split('=')[1];
-const PORT = +(ARGV.find(_ => _.startsWith('port=')) || 'port=8080').split('=')[1];
 
 const QUERY_USER = 'user';
 const QUERY_CONTENT_TYPE = 'contentType';
@@ -38,7 +37,9 @@ const server = createServer((req, resp) => {
   resp.end();
 });
 
-console.log(`greeting server starting on ${PORT}`);
-server.listen(PORT);
+const HOST = process.env.HOST || null;
+const PORT = +process.env.PORT || 8080;
+console.log(`greeting server starting on ${(HOST || 'localhost') + ':' + PORT}`);
+server.listen(PORT, HOST);
 
 registerShutdown(() => closeServerPromise(server));

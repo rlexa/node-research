@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "build": "tsc",
-    "start:greeting": "npm run build && node dist/hello.server.js",
+    "serve": "tsc -w",
+    "serve:hello": "cross-env NODE_ENV=development PORT=8080 HOST=localhost nodemon --inspect --watch dist dist/hello.server.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "lint": "tslint -p ."
   },
@@ -21,6 +22,8 @@
   "homepage": "https://github.com/rlexa/node-research#readme",
   "devDependencies": {
     "@types/node": "^10.12.0",
+    "cross-env": "^5.2.0",
+    "nodemon": "^1.18.5",
     "tslint": "^5.11.0",
     "typescript": "^3.1.3"
   }
