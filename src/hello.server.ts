@@ -4,13 +4,6 @@ import { toContentTypeView } from './content-type-view';
 import { closeServerPromise } from './server.util';
 import { registerShutdown } from './shutdown-logic';
 
-const ARGV = process.argv
-  .filter(_ => _.startsWith('-par:'))
-  .map(_ => _.substr('-par:'.length))
-  .filter(_ => _.length);
-
-const GREETING = (ARGV.find(_ => _.startsWith('greeting=')) || 'greeting=Hi').split('=')[1];
-
 const QUERY_USER = 'user';
 const QUERY_CONTENT_TYPE = 'contentType';
 
@@ -23,12 +16,10 @@ const server = createServer((req, resp) => {
   resp.statusCode = 200;
   resp.write(
     toContentTypeView(contentType, {
-      _argv: ARGV,
       _contentType: contentType,
-      _greetingPrefix: GREETING,
       _urlQueryParamsCurrent: params,
       _urlQueryParamsPossible: [QUERY_CONTENT_TYPE, QUERY_USER],
-      greeting: GREETING + ' ' + params[QUERY_USER],
+      greeting: 'Hi ' + params[QUERY_USER],
     }));
   resp.end();
 });
