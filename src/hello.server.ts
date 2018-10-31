@@ -15,12 +15,8 @@ const QUERY_USER = 'user';
 const QUERY_CONTENT_TYPE = 'contentType';
 
 const server = createServer((req, resp) => {
-  const query = parse(req.url || '');
-  const params = (query.query || '').split('&');
-  const paramUserValue = (params.find(_ => _.startsWith(QUERY_USER + '=')) || QUERY_USER + '=').split('=')[1];
-  const paramContentType = (params.find(_ => _.startsWith(QUERY_CONTENT_TYPE + '=')) || QUERY_CONTENT_TYPE + '=').split('=')[1];
-
-  const contentType = paramContentType || req.headers['content-type'] || 'text/plain';
+  const params = parse(req.url, true).query;
+  const contentType = params[QUERY_CONTENT_TYPE] + '' || req.headers['content-type'] || 'text/plain';
 
   resp.setHeader('access-control-allow-origin', '*');
   resp.setHeader('content-type', contentType);
@@ -32,7 +28,7 @@ const server = createServer((req, resp) => {
       _greetingPrefix: GREETING,
       _urlQueryParamsCurrent: params,
       _urlQueryParamsPossible: [QUERY_CONTENT_TYPE, QUERY_USER],
-      greeting: GREETING + ' ' + paramUserValue,
+      greeting: GREETING + ' ' + params[QUERY_USER],
     }));
   resp.end();
 });
