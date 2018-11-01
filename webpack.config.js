@@ -2,6 +2,7 @@ const path = require('path');
 
 module.exports = {
   entry: {
+    'forward.server': './src/forward.server',
     'hello.server': './src/hello.server'
   }, /* <distName>: <path> */
   output: {

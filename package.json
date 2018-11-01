@@ -4,8 +4,9 @@
   "description": "Node project stuff",
   "main": "index.js",
   "scripts": {
-    "build:webpack": "webpack",
-    "serve:webpack": "webpack --watch",
+    "build": "webpack",
+    "serve": "webpack --watch",
+    "server:forward": "cross-env NODE_ENV=development PORT=8081 HOST=localhost nodemon --inspect --watch dist dist/forward.server.js",
     "server:hello": "cross-env NODE_ENV=development PORT=8080 HOST=localhost nodemon --inspect --watch dist dist/hello.server.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "lint": "tslint -p ."
@@ -20,9 +21,10 @@
     "url": "https://github.com/rlexa/node-research/issues"
   },
   "homepage": "https://github.com/rlexa/node-research#readme",
-  "_devDependencies": {
+  "_dependencies": {
     "@types/node": "typescript code",
     "cross-env": "set env variables (see npm scripts above)",
+    "https-proxy-agent": "when proxy detected use it as proxy middleware",
     "nodemon": "watch and restart node modules (see npm scripts above)",
     "ts-loader": "for webpack",
     "tslint": "for vs code (but also see npm script)",
@@ -39,5 +41,8 @@
     "typescript": "^3.1.3",
     "webpack": "^4.23.1",
     "webpack-cli": "^3.1.2"
+  },
+  "dependencies": {
+    "https-proxy-agent": "^2.2.1"
   }
 }
